@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trilha de Missões · Polícias do Amazonas — Sou Concurseiro e Vou Passar</title>
+<meta name="description" content="Vídeos de aquecimento exclusivos da Sala Secreta Polícias AM (PC · PM · Polícia Penal). Cada vídeo é uma missão. Cumpra todas e suba de patente.">
+<meta property="og:title" content="Trilha de Missões · Polícias do Amazonas">
+<meta property="og:description" content="Vídeos de aquecimento exclusivos da Sala Secreta Polícias AM (PC · PM · Polícia Penal). Cada vídeo é uma missão. Cumpra todas e suba de patente.">
+<meta property="og:image" content="https://fabiomsam-cloud.github.io/trilha-missoes-a7c3e1/assets/og-policias.jpg">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+
+<!-- Meta Pixel (POLICIAS) -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '429553154418122');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=429553154418122&ev=PageView&noscript=1"/></noscript>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/app.css?v=1">
+<script>
+window.TRILHA = {
+  frente: "POLICIAS",
+  titulo: "Trilha de Missões Polícias do Amazonas",
+  grupo_url: "https://sndflw.com/i/fRiCa8jorZXLuQq20ywu",
+  sequencial: true,
+  patentes: ["Recruta","Soldado","Cabo","Sargento","Tenente","Capitão","Comandante"]
+};
+</script>
+</head>
+<body>
+<div class="topbar"><img src="../assets/logo-scvp.png" alt="Sou Concurseiro e Vou Passar"></div>
+
+<main class="wrap">
+  <header class="hero">
+    <span class="tag">🎯 Trilha de Missões</span>
+    <h1 class="display">Polícias do Amazonas<br><em>Aquecimento</em></h1>
+    <p>Vídeos de aquecimento exclusivos da Sala Secreta Polícias AM (PC · PM · Polícia Penal). Cada vídeo é uma missão. Cumpra todas e suba de patente.</p>
+  </header>
+
+  <!-- GATE -->
+  <section id="gate" class="card" style="display:none">
+    <h2 class="display">Identifique-se, recruta</h2>
+    <p class="sub">Uma vez só. É assim que a trilha sabe quem cumpriu cada missão e monta o ranking do grupo.</p>
+    <form>
+      <div class="field"><label for="nome">Seu nome</label><input id="nome" type="text" autocomplete="name" placeholder="Como você quer aparecer no ranking"></div>
+      <div class="field"><label for="tel">WhatsApp (o mesmo que está no grupo)</label><input id="tel" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(92) 99999-9999"></div>
+      <button id="entrar" class="btn" type="button">Começar as missões</button>
+      <div class="err"></div>
+    </form>
+    <p class="hint">Só usamos o número para conferir que você está no grupo e registrar suas missões.</p>
+  </section>
+
+  <!-- TRILHA -->
+  <section id="trilha" style="display:none">
+    <div class="status">
+      <div class="who" id="who"></div>
+      <div class="patente"><div class="insig" id="insig">🪖</div><div><div class="lbl">Patente</div><div class="nome display" id="patente">Recruta</div></div></div>
+    </div>
+    <div class="bar" id="bar"><i></i></div>
+    <div class="barlbl" id="barlbl"></div>
+
+    <div class="aviso" id="aviso" style="display:none">⚠️ <div>Não encontramos esse número no grupo. Suas missões contam, mas para valer no ranking <a href="https://sndflw.com/i/fRiCa8jorZXLuQq20ywu" target="_blank" rel="noopener">entre no grupo</a> com este mesmo WhatsApp.</div></div>
+
+    <div class="sec">Missões</div>
+    <div id="missoes"></div>
+
+    <div class="sec">🏆 Ranking do grupo · top 10</div>
+    <div class="card" style="padding:6px 6px"><ul class="rank" id="rank"></ul></div>
+
+    <p class="foot">Assista pelo menos 75% do vídeo para a missão contar. Pulou trecho? Não conta. 😉<br><a href="#" id="sair">Não é você? Trocar de conta</a></p>
+  </section>
+</main>
+
+<div class="toast" id="toast"><b></b><span></span></div>
+<script src="../assets/app.js?v=1"></script>
+</body>
+</html>
