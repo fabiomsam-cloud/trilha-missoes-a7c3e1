@@ -131,11 +131,12 @@
     stopPlayer();
     await ytReady;
     const seg0 = Math.max(loadSeg(m.id), (state.progresso[m.id] || {}).seg_assistidos || 0);
-    watch = { missao: m, el, dur: (state.progresso[m.id] || {}).duracao_seg || m.duracao_seg || 0, seg: seg0, last: null, lastFlush: Date.now(), busy: false };
+    // duração: a cadastrada na missão manda (o player pode responder a duração do anúncio antes do vídeo)
+    watch = { missao: m, el, dur: m.duracao_seg || 0, durFixa: !!m.duracao_seg, seg: seg0, last: null, lastFlush: Date.now(), busy: false };
     player = new YT.Player("yt-" + m.id, {
       videoId: m.youtube_id, playerVars: { rel: 0, modestbranding: 1, playsinline: 1, origin: location.origin },
       events: {
-        onReady: (e) => { const d = e.target.getDuration(); if (d > 0) watch.dur = Math.round(d); },
+        onReady: (e) => { if (!watch.durFixa) { const d = e.target.getDuration(); if (d > 0) watch.dur = Math.round(d); } },
         onStateChange: (e) => {
           if (e.data === YT.PlayerState.PLAYING) { watch.last = player.getCurrentTime(); if (!tick) tick = setInterval(onTick, 1000); px("MissaoIniciada", { frente: C.frente, missao: m.ordem }); }
           else { if (tick) { clearInterval(tick); tick = null; } watch.last = null; flush(e.data === YT.PlayerState.ENDED); }
@@ -146,7 +147,7 @@
   function onTick() {
     if (!player || !watch) return;
     const cur = player.getCurrentTime();
-    if (!watch.dur) { const d = player.getDuration(); if (d > 0) watch.dur = Math.round(d); }
+    if (!watch.durFixa) { const d = player.getDuration(); if (d > 0) watch.dur = Math.round(d); }
     if (watch.last != null) { const delta = cur - watch.last; if (delta > 0 && delta <= 2.5) watch.seg += delta; }
     watch.last = cur;
     saveSeg(watch.missao.id, watch.seg);
