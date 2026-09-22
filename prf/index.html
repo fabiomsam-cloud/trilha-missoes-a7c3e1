@@ -51,6 +51,30 @@ window.TRILHA = {
     <p>Vídeos de aquecimento exclusivos do grupo Estude Comigo PRF. Cada vídeo é uma missão. Cumpra todas e suba de patente.</p>
   </header>
 
+  <!-- LIVE 29/09/2026 -->
+  <section id="live" style="background:linear-gradient(180deg,rgba(227,184,79,.14),rgba(227,184,79,.05));border:1px solid var(--line-gold);border-radius:var(--radius);padding:18px 16px;margin-bottom:22px;text-align:center">
+    <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700">🔴 Aula ao vivo · terça-feira, 29/09</div>
+    <div class="display" style="font-size:clamp(22px,5.5vw,30px);color:#fff;margin:8px 0 4px">20h de Brasília <span style="color:var(--gold)">· 19h em Manaus</span></div>
+    <div id="live-cd" class="mono" style="font-size:13px;color:var(--faint);margin-bottom:12px"></div>
+    <p style="font-size:14px;color:var(--dim);margin:0 0 14px">O link da transmissão cai no grupo <b style="color:#fff">ESTUDE COMIGO PRF</b> na hora da aula. Cumpra as suas missões antes — elas são a base do que eu vou mostrar ao vivo.</p>
+    <a class="btn wa" href="https://sndflw.com/i/1KA9so23JVS0o7A9AZyR" target="_blank" rel="noopener" style="text-decoration:none">Entrar no grupo para receber o link</a>
+  </section>
+  <script>
+  (function(){
+    var alvo = new Date("2026-09-29T20:00:00-03:00").getTime(), el = document.getElementById("live-cd");
+    function tick(){
+      var d = alvo - Date.now();
+      if (d <= -4*3600e3) { document.getElementById("live").style.display = "none"; return; }
+      if (d <= 0) { el.textContent = "A aula já começou — o link está no grupo."; return; }
+      var dias = Math.floor(d/864e5), hrs = Math.floor(d%864e5/36e5), min = Math.floor(d%36e5/6e4);
+      el.textContent = dias > 0 ? "Faltam " + dias + (dias > 1 ? " dias e " : " dia e ") + hrs + "h"
+                     : (hrs > 0 ? "Faltam " + hrs + "h" + (min < 10 ? "0" : "") + min : "Faltam " + min + " minutos");
+      setTimeout(tick, 30000);
+    }
+    tick();
+  })();
+  </script>
+
   <!-- GATE -->
   <section id="gate" class="card" style="display:none">
     <h2 class="display">Identifique-se, recruta</h2>
