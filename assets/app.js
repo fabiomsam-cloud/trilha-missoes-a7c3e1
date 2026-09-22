@@ -70,7 +70,7 @@
   function showTrilha() {
     $("#gate").style.display = "none";
     $("#trilha").style.display = "";
-    renderStatus(); renderMissoes(); loadRanking();
+    renderStatus(); renderMissoes(); loadRanking(); loadPremio();
   }
   function renderStatus() {
     const n = state.missoes.length, d = totalDone();
@@ -188,6 +188,82 @@
     if (next) { const ne = document.querySelector('[data-id="' + next.id + '"]'); if (ne) { ne.classList.remove("locked"); $(".mnum", ne).textContent = String(next.ordem).padStart(2, "0"); $(".mst", ne).textContent = "Assistir"; $(".msub", ne).textContent = "Vale " + next.pontos + " pts"; $(".mhead", ne).onclick = () => toggle(next, ne); } }
   }
   function toast(t, s) { const el = $("#toast"); $("b", el).textContent = t; $("span", el).textContent = s || ""; el.classList.add("show"); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("show"), 5000); }
+
+
+  /* ---------- prêmio (código da aula ao vivo) ---------- */
+  // A página da frente só mostra o card se existir prêmio cadastrado
+  // (missoes_premios) — nas frentes sem prêmio a caixa some.
+  async function loadPremio() {
+    const box = $("#premio");
+    if (!box || !state.me) return;
+    try {
+      const r = await api({ op: "premio", telefone: state.me.tel });
+      if (!r.existe) { box.style.display = "none"; return; }
+      state.premio = r;
+      renderPremio();
+    } catch (e) { box.style.display = "none"; }
+  }
+
+  // Sempre no fuso de Brasília: o público é nacional e o horário anunciado é
+  // o de Brasília — usar o fuso do aparelho faria a página dizer 19h em Manaus.
+  // Sempre no fuso de Brasília: o público é nacional e o horário anunciado é o
+  // de Brasília — usar o fuso do aparelho faria a página dizer 19h em Manaus.
+  function dataHora(iso) {
+    const partes = new Intl.DateTimeFormat("pt-BR", {
+      timeZone: "America/Sao_Paulo", weekday: "long", day: "2-digit",
+      month: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false,
+    }).formatToParts(new Date(iso));
+    const get = (t) => (partes.find((x) => x.type === t) || {}).value || "";
+    const mm = get("minute");
+    return get("weekday").replace("-feira", "") + ", " + get("day") + "/" + get("month") +
+      " às " + get("hour") + "h" + (mm === "00" ? "" : mm) + " de Brasília";
+  }
+
+  function renderPremio() {
+    const box = $("#premio"), p = state.premio;
+    box.style.display = "";
+    if (p.resgatado && p.arquivos) {
+      box.innerHTML = '<div class="sec">🎁 ' + esc(p.titulo) + '</div><div class="card" id="premio-card">' +
+        '<p class="sub" style="margin-bottom:14px">Liberado. Os links valem 7 dias — baixe agora e guarde no celular.</p>' +
+        p.arquivos.map(function (a) {
+          return '<a class="btn" style="text-decoration:none;margin-bottom:10px" href="' + esc(a.url) + '">⬇️ ' + esc(a.nome) + "</a>";
+        }).join("") + "</div>";
+      return;
+    }
+    if (!p.aberto) {
+      box.innerHTML = '<div class="sec">🔒 Missão final</div><div class="card">' +
+        '<h2 class="display">O código da Super Aula</h2>' +
+        '<p class="sub">Na aula ao vivo de <b style="color:#fff">' + esc(dataHora(p.abre_em)) + '</b> eu anuncio um código. ' +
+        'Quem cumpriu as missões e estiver ao vivo digita o código aqui e leva os <b style="color:#fff">' + p.total_arquivos + ' materiais</b>. Não é sorteio.</p>' +
+        "</div>";
+      return;
+    }
+    box.innerHTML = '<div class="sec">🎁 Missão final</div><div class="card">' +
+      '<h2 class="display">Digite o código da aula</h2>' +
+      '<p class="sub">Eu acabei de anunciar o código ao vivo. Digite aqui para liberar os ' + p.total_arquivos + " materiais.</p>" +
+      '<div class="field"><input id="cod" type="text" autocomplete="off" autocapitalize="characters" placeholder="Código da aula"></div>' +
+      '<button id="resgatar" class="btn" type="button">Liberar meus materiais</button><div class="err" id="cod-err"></div></div>';
+    $("#resgatar").addEventListener("click", resgatar);
+    $("#cod").addEventListener("keydown", function (e) { if (e.key === "Enter") resgatar(); });
+  }
+
+  async function resgatar() {
+    const btn = $("#resgatar"), err = $("#cod-err"), codigo = ($("#cod").value || "").trim();
+    err.textContent = "";
+    if (!codigo) { err.textContent = "Digite o código que eu falei na aula."; return; }
+    btn.disabled = true; btn.textContent = "Conferindo…";
+    try {
+      const r = await api({ op: "premio", telefone: state.me.tel, codigo: codigo });
+      state.premio = r;
+      px("PremioResgatado", { frente: C.frente });
+      toast("Liberado! 🎁", "Seus materiais estão aqui embaixo.");
+      renderPremio();
+      $("#premio-card").scrollIntoView({ behavior: "smooth", block: "center" });
+    } catch (e) {
+      err.textContent = e.message;
+      btn.disabled = false; btn.textContent = "Liberar meus materiais";
+    }
+  }
 
   /* ---------- ranking ---------- */
   async function loadRanking() {
