@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de Formação · Futuro PRF — Sou Concurseiro e Vou Passar</title>
+<meta name="description" content="Responda 8 perguntas rápidas e receba na hora o Planner Tático PRF em PDF.">
+<meta property="og:title" content="Ficha de Formação · Futuro PRF">
+<meta property="og:description" content="Responda 8 perguntas rápidas e receba na hora o Planner Tático PRF em PDF.">
+<meta property="og:image" content="https://fabiomsam-cloud.github.io/trilha-missoes-a7c3e1/assets/planner-prf.jpg">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:,">
+
+<!-- Meta Pixel (COMBO PF-PRF) -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '297518201669282');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=297518201669282&ev=PageView&noscript=1"/></noscript>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/app.css?v=2">
+</head>
+<body>
+<div class="topbar"><img src="../../assets/logo-scvp.png" alt="Sou Concurseiro e Vou Passar"></div>
+
+<main class="wrap">
+  <div id="fx"></div>
+</main>
+
+<script src="../../assets/ficha.js?v=1"></script>
+<script>
+/* Link exclusivo da Ficha de Formação (PRF) — usado no disparo.
+   Quem conclui fica identificado também na Trilha de Missões (mesmo localStorage). */
+(function () {
+  var FRENTE = "PRF", STORE = "trilha_" + FRENTE.toLowerCase(), GRUPO = "https://sndflw.com/i/1KA9so23JVS0o7A9AZyR";
+  var box = document.getElementById("fx"), saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) {}
+  var me = saved && saved.tel ? { tel: saved.tel, nome: saved.nome || "" } : null;
+
+  function depois(membro) {
+    var card = box.querySelector(".fx-ok"); if (!card) return;
+    card.insertAdjacentHTML("beforeend",
+      '<a class="btn ghost" href="../" style="text-decoration:none;margin-top:12px">Continuar para as missões da trilha →</a>' +
+      (membro === false ? '<a class="btn wa" href="' + GRUPO + '" target="_blank" rel="noopener" style="text-decoration:none;margin-top:10px">Entrar no grupo</a>' : ""));
+  }
+  function montar() {
+    Ficha.mount(box, { frente: FRENTE, me: me, origem: "link", assetsBase: "../../assets/",
+      onDone: function (r) {
+        try { localStorage.setItem(STORE, JSON.stringify({ tel: r.participante.tel, nome: r.participante.nome })); } catch (e) {}
+        depois(r.participante.membro);
+      } });
+  }
+  if (!me) { montar(); return; }
+  fetch("https://dqpxugdhlgafvddavzzp.supabase.co/functions/v1/missoes?op=ficha&frente=" + FRENTE + "&tel=" + me.tel)
+    .then(function (x) { return x.json(); })
+    .then(function (r) {
+      if (r.feita && r.planner) { var h = Ficha.mount(box, { frente: FRENTE, me: me, origem: "link", assetsBase: "../../assets/" }); h.entregue(r.planner); depois(null); }
+      else montar();
+    }).catch(montar);
+})();
+</script>
+</body>
+</html>

@@ -11,7 +11,7 @@
   const PATENTES = C.patentes || ["Recruta", "Soldado", "Cabo", "Sargento", "Tenente", "Capitão", "Comandante"];
   const $ = (s, el) => (el || document).querySelector(s);
 
-  const state = { me: null, missoes: [], progresso: {}, posicao: null, pct: 75, aberta: null };
+  const state = { me: null, missoes: [], progresso: {}, posicao: null, pct: 75, aberta: null, ficha: null };
   let player = null, tick = null, watch = null; // watch = {missao, dur, seg, last, lastFlush, pctSent}
 
   /* ---------- storage ---------- */
@@ -58,7 +58,7 @@
     btn.disabled = true; btn.textContent = "Entrando…";
     try {
       const r = await api({ op: "entrar", nome, telefone });
-      state.me = r.participante; state.missoes = r.missoes; state.progresso = r.progresso; state.posicao = r.posicao; state.pct = r.pct_conclusao;
+      state.me = r.participante; state.missoes = r.missoes; state.progresso = r.progresso; state.posicao = r.posicao; state.pct = r.pct_conclusao; state.ficha = r.ficha || null;
       save({ tel: r.participante.tel, nome: r.participante.nome });
       px("TrilhaEntrou", { frente: C.frente });
       showTrilha();
@@ -70,7 +70,32 @@
   function showTrilha() {
     $("#gate").style.display = "none";
     $("#trilha").style.display = "";
-    renderStatus(); renderMissoes(); loadRanking(); loadPremio();
+    renderStatus();
+    // Ficha de Formação: obrigatória para quem entrou a partir de 23/09 (missões só depois dela);
+    // card para quem já estava; mini-card do planner para quem já respondeu.
+    const fbox = $("#ficha"), corpo = $("#corpo");
+    if (fbox && window.Ficha && state.ficha) {
+      if (state.ficha.feita) { Ficha.plannerCard(fbox, C.frente, state.me.tel); }
+      else if (state.ficha.obrigatoria) {
+        fbox.style.display = ""; if (corpo) corpo.style.display = "none";
+        Ficha.mount(fbox, { frente: C.frente, me: state.me, origem: "trilha",
+          intro: "Antes da Missão 1: responda 8 perguntas rápidas (cerca de 1 minuto) e receba na hora o seu planner em PDF.",
+          depois: '<button class="btn ghost" type="button" id="fx-missoes" style="margin-top:10px">Começar a Missão 1 →</button>',
+          onDone: () => {
+            state.ficha.feita = true;
+            const b = $("#fx-missoes");
+            if (b) b.onclick = () => { if (corpo) corpo.style.display = ""; renderMissoes(); loadRanking(); loadPremio(); corpo.scrollIntoView({ behavior: "smooth", block: "start" }); };
+          } });
+        return;
+      } else {
+        fbox.style.display = "";
+        Ficha.mount(fbox, { frente: C.frente, me: state.me, origem: "trilha",
+          intro: "Bônus para quem já está na trilha: responda 8 perguntas rápidas (cerca de 1 minuto) e ganhe na hora o seu planner em PDF.",
+          onDone: () => { state.ficha.feita = true; } });
+      }
+    }
+    if (corpo) corpo.style.display = "";
+    renderMissoes(); loadRanking(); loadPremio();
   }
   function renderStatus() {
     const n = state.missoes.length, d = totalDone();
@@ -292,7 +317,7 @@
     if (saved && saved.tel) {
       try {
         const r = await fetch(API + "?op=trilha&frente=" + C.frente + "&tel=" + saved.tel, { headers: { Authorization: "Bearer " + API_KEY, apikey: API_KEY } }).then((x) => x.json());
-        if (r.participante) { state.me = r.participante; state.missoes = r.missoes; state.progresso = r.progresso; state.posicao = r.posicao; state.pct = r.pct_conclusao; showTrilha(); return; }
+        if (r.participante) { state.me = r.participante; state.missoes = r.missoes; state.progresso = r.progresso; state.posicao = r.posicao; state.pct = r.pct_conclusao; state.ficha = r.ficha || null; showTrilha(); return; }
       } catch (e) {}
     }
     showGate();

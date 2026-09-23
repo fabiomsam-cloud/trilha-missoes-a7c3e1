@@ -105,3 +105,27 @@ button{font-family:inherit;cursor:pointer}
 
 .foot{text-align:center;color:var(--faint);font-size:12px;margin-top:36px}
 .foot a{color:var(--dim)}
+
+/* ---- Ficha de Formação (23/09/2026) ---- */
+#ficha{margin-bottom:8px}
+.fx .tag{margin-bottom:10px}
+.fx-h{font-size:clamp(28px,7vw,40px);color:#fff;margin:4px 0 8px}
+.fx-h em{font-style:normal;color:var(--gold)}
+.fx-capa{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line-gold);margin:4px 0 16px;box-shadow:0 12px 30px rgba(0,0,0,.45)}
+.fx-prog{margin-bottom:16px}
+.fx-prog .bar{height:8px}
+.fx-prog .barlbl{margin:6px 2px 0}
+.fx-q{font-family:'Archivo',sans-serif;font-size:19px;line-height:1.35;color:#fff;margin:0 0 14px;font-weight:700}
+.fx-q small{font-weight:500;color:var(--faint);font-size:13px}
+.fx-ops{display:flex;flex-direction:column;gap:10px}
+.fx-op{width:100%;text-align:left;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(7,13,29,.6);color:var(--ink);font-size:16px;font-weight:500;line-height:1.35;transition:border-color .15s,background .15s}
+@media (hover:hover){.fx-op:hover{border-color:var(--blue-soft)}}
+.fx-op.on{border-color:var(--gold);background:rgba(227,184,79,.14);color:#fff}
+.fx textarea{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:rgba(7,13,29,.7);color:#fff;font-size:16px;font-family:inherit;outline:none;resize:vertical}
+.fx textarea:focus{border-color:var(--blue-soft);box-shadow:0 0 0 3px rgba(62,111,217,.25)}
+.fx-back{display:block;margin:12px auto 0;background:none;border:0;color:var(--faint);font-size:14px;text-decoration:underline}
+.fx-mini{display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;text-decoration:none;background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid rgba(55,176,106,.45);border-radius:var(--radius);padding:10px 14px 10px 10px;margin-bottom:6px}
+.fx-mini img{width:72px;height:auto;border-radius:8px;display:block}
+.fx-mini b{display:block;color:#fff;font-size:15px}
+.fx-mini small{display:block;color:var(--dim);font-size:13px}
+.fx-mini em{font-style:normal;font-size:20px}

@@ -30,7 +30,7 @@ fbq('track', 'PageView');
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/app.css?v=1">
+<link rel="stylesheet" href="../assets/app.css?v=2">
 <script>
 window.TRILHA = {
   frente: "POLICIAS",
@@ -53,7 +53,7 @@ window.TRILHA = {
 
   <!-- GATE -->
   <section id="gate" class="card" style="display:none">
-    <h2 class="display">Identifique-se, recruta</h2>
+    <h2 class="display">Identifique-se</h2>
     <p class="sub">Uma vez só. É assim que a trilha sabe quem cumpriu cada missão e monta o ranking do grupo.</p>
     <form>
       <div class="field"><label for="nome">Seu nome</label><input id="nome" type="text" autocomplete="name" placeholder="Como você quer aparecer no ranking"></div>
@@ -75,17 +75,23 @@ window.TRILHA = {
 
     <div class="aviso" id="aviso" style="display:none">⚠️ <div>Não encontramos esse número no grupo. Suas missões contam, mas para valer no ranking <a href="https://sndflw.com/i/fRiCa8jorZXLuQq20ywu" target="_blank" rel="noopener">entre no grupo</a> com este mesmo WhatsApp.</div></div>
 
+    <div id="ficha" style="display:none"></div>
+
+    <div id="corpo">
     <div class="sec">Missões</div>
     <div id="missoes"></div>
 
     <div class="sec">🏆 Ranking do grupo · top 10</div>
     <div class="card" style="padding:6px 6px"><ul class="rank" id="rank"></ul></div>
 
+    </div>
+
     <p class="foot">Assista pelo menos 75% do vídeo para a missão contar. Pulou trecho? Não conta. 😉<br><a href="#" id="sair">Não é você? Trocar de conta</a></p>
   </section>
 </main>
 
 <div class="toast" id="toast"><b></b><span></span></div>
-<script src="../assets/app.js?v=3"></script>
+<script src="../assets/ficha.js?v=1"></script>
+<script src="../assets/app.js?v=4"></script>
 </body>
 </html>
