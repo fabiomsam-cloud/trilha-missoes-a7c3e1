@@ -63,7 +63,7 @@
       px("TrilhaEntrou", { frente: C.frente });
       showTrilha();
     } catch (e) { err.textContent = e.message; }
-    btn.disabled = false; btn.textContent = "Começar as missões";
+    btn.disabled = false; btn.textContent = C.soPremio ? "Continuar" : "Começar as missões";
   }
 
   /* ---------- trilha ---------- */
@@ -72,6 +72,10 @@
     $("#trilha").style.display = "";
     renderStatus();
     loadPremio(); // o prêmio não depende da ficha nem das missões
+    if (C.soPremio) { // só o código: sem ficha/planner, missões, patente e ranking
+      [".status", "#bar", "#barlbl", "#aviso", "#ficha", "#corpo"].forEach((q) => { const el = $(q); if (el) el.style.display = "none"; });
+      return;
+    }
     // Ficha de Formação: obrigatória para quem entrou a partir de 23/09 (missões só depois dela);
     // card para quem já estava; mini-card do planner para quem já respondeu.
     const fbox = $("#ficha"), corpo = $("#corpo");

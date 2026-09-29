@@ -34,6 +34,7 @@ fbq('track', 'PageView');
 <script>
 window.TRILHA = {
   frente: "PRF",
+  soPremio: true, // 29/09: página mostra só o código da Super Aula (sem planner, missões e ranking)
   titulo: "Trilha de Missões PRF",
   grupo_url: "https://sndflw.com/i/1KA9so23JVS0o7A9AZyR",
   sequencial: true,
@@ -89,14 +90,14 @@ window.TRILHA = {
   <!-- GATE -->
   <section id="gate" class="card" style="display:none">
     <h2 class="display">Identifique-se</h2>
-    <p class="sub">Uma vez só. É assim que a trilha sabe quem cumpriu cada missão e monta o ranking do grupo.</p>
+    <p class="sub">Uma vez só. Depois é só digitar o código da Super Aula e baixar os materiais.</p>
     <form>
       <div class="field"><label for="nome">Seu nome</label><input id="nome" type="text" autocomplete="name" placeholder="Como você quer aparecer no ranking"></div>
       <div class="field"><label for="tel">WhatsApp (o mesmo que está no grupo)</label><input id="tel" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(92) 99999-9999"></div>
-      <button id="entrar" class="btn" type="button">Começar as missões</button>
+      <button id="entrar" class="btn" type="button">Continuar</button>
       <div class="err"></div>
     </form>
-    <p class="hint">Só usamos o número para conferir que você está no grupo e registrar suas missões.</p>
+    <p class="hint">Só usamos o número para registrar a entrega dos materiais.</p>
   </section>
 
   <!-- TRILHA -->
@@ -124,12 +125,11 @@ window.TRILHA = {
 
     </div>
 
-    <p class="foot">Assista pelo menos 75% do vídeo para a missão contar. Pulou trecho? Não conta. 😉<br><a href="#" id="sair">Não é você? Trocar de conta</a></p>
+    <p class="foot"><a href="#" id="sair">Não é você? Trocar de conta</a></p>
   </section>
 </main>
 
 <div class="toast" id="toast"><b></b><span></span></div>
-<script src="../assets/ficha.js?v=1"></script>
-<script src="../assets/app.js?v=5"></script>
+<script src="../assets/app.js?v=6"></script>
 </body>
 </html>
