@@ -71,6 +71,7 @@
     $("#gate").style.display = "none";
     $("#trilha").style.display = "";
     renderStatus();
+    loadPremio(); // o prêmio não depende da ficha nem das missões
     // Ficha de Formação: obrigatória para quem entrou a partir de 23/09 (missões só depois dela);
     // card para quem já estava; mini-card do planner para quem já respondeu.
     const fbox = $("#ficha"), corpo = $("#corpo");
@@ -84,7 +85,7 @@
           onDone: () => {
             state.ficha.feita = true;
             const b = $("#fx-missoes");
-            if (b) b.onclick = () => { if (corpo) corpo.style.display = ""; renderMissoes(); loadRanking(); loadPremio(); corpo.scrollIntoView({ behavior: "smooth", block: "start" }); };
+            if (b) b.onclick = () => { if (corpo) corpo.style.display = ""; renderMissoes(); loadRanking(); corpo.scrollIntoView({ behavior: "smooth", block: "start" }); };
           } });
         return;
       } else {
@@ -95,7 +96,7 @@
       }
     }
     if (corpo) corpo.style.display = "";
-    renderMissoes(); loadRanking(); loadPremio();
+    renderMissoes(); loadRanking();
   }
   function renderStatus() {
     const n = state.missoes.length, d = totalDone();
@@ -259,7 +260,7 @@
       box.innerHTML = '<div class="sec">🔒 Missão final</div><div class="card">' +
         '<h2 class="display">O código da Super Aula</h2>' +
         '<p class="sub">Na aula ao vivo de <b style="color:#fff">' + esc(dataHora(p.abre_em)) + '</b> eu anuncio um código. ' +
-        'Quem cumpriu as missões e estiver ao vivo digita o código aqui e leva os <b style="color:#fff">' + p.total_arquivos + ' materiais</b>. Não é sorteio.</p>' +
+        'Quem estiver ao vivo digita o código aqui e leva os <b style="color:#fff">' + p.total_arquivos + ' materiais</b>. Não é sorteio.</p>' +
         "</div>";
       return;
     }
